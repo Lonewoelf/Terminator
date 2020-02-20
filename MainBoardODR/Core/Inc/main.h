@@ -62,16 +62,10 @@ void Error_Handler(void);
 #define ADC_1_GPIO_Port GPIOA
 #define ADC_2_Pin GPIO_PIN_4
 #define ADC_2_GPIO_Port GPIOA
-#define GPIO_TEST_Pin GPIO_PIN_1
-#define GPIO_TEST_GPIO_Port GPIOB
 #define JTAG_JTMS_Pin GPIO_PIN_13
 #define JTAG_JTMS_GPIO_Port GPIOA
 #define JTAG_JTCLK_Pin GPIO_PIN_14
 #define JTAG_JTCLK_GPIO_Port GPIOA
-#define JTAG_JIDI_Pin GPIO_PIN_15
-#define JTAG_JIDI_GPIO_Port GPIOA
-#define JTAG_JIDO_Pin GPIO_PIN_3
-#define JTAG_JIDO_GPIO_Port GPIOB
 #define I2C_SCL_Pin GPIO_PIN_6
 #define I2C_SCL_GPIO_Port GPIOB
 #define I2C_SDA_Pin GPIO_PIN_7
