@@ -14461,6 +14461,7 @@ __weak void HAL_TIMEx_Break2Callback(TIM_HandleTypeDef *htim)
  80055c0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
  80055c2:	bf00      	nop
  80055c4:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80055c6:	bc08      	pop	{r3}
  80055c8:	469e      	mov	lr, r3
  80055ca:	4770      	bx	lr
 
