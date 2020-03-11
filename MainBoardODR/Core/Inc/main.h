@@ -88,6 +88,7 @@ void Error_Handler(void);
 #define MOTOR_IN_3_1_GPIO_Port GPIOA
 #define BUMPER_Pin GPIO_PIN_12
 #define BUMPER_GPIO_Port GPIOA
+#define BUMPER_EXTI_IRQn EXTI15_10_IRQn
 #define SWDIO_Pin GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin GPIO_PIN_14
