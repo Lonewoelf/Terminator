@@ -27,7 +27,7 @@ void sensorReadValue(ADC_HandleTypeDef* hadc1, ADC_HandleTypeDef* hadc2){
 		HAL_GPIO_WritePin(GPIOA, MUX_SELECT_2_Pin, val2);
 		HAL_GPIO_WritePin(GPIOA, MUX_SELECT_3_Pin, val3);
 		sensorValues[muxSelect] = sensorGetADCValue(hadc2);
-		HAL_Delay(500);
+		//HAL_Delay(500);
 	}
 }
 

@@ -26,6 +26,7 @@
 
 #include "motor.h"
 #include "sensors.h"
+#include "bumper.h"
 
 /* USER CODE END Includes */
 
@@ -161,6 +162,8 @@ int main(void)
 
 	uint32_t adc, adc2;
 
+	BUMPER_STATUS bumper = BUMPER_NONE;
+
 	HAL_TIM_Base_Start_IT(&htim2);
 	//HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
 
@@ -175,6 +178,9 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
+
+		bumper = getBumperStatus();
+
 //		HAL_ADC_Start(&hadc1);
 //		HAL_ADC_Start(&hadc2);
 //
