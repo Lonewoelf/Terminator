@@ -9,6 +9,7 @@
 #define INC_MOTOR_H_
 
 #define PWM_MAX 100
+#define AMOUNT_OF_MOTOR_CHANNELS 6
 
 uint8_t motorGetSpeed(uint8_t motorID);          	//retrieves the current speed
 bool motorBreak();		  					        //normal break, returns 0 if succeeded 1 if failed
