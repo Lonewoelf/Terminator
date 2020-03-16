@@ -11,9 +11,6 @@
 #define PWM_MAX 100
 #define AMOUNT_OF_MOTOR_CHANNELS 6
 
-uint8_t motorGetSpeed(uint8_t motorID);          	//retrieves the current speed
-bool motorBreak();		  					        //normal break, returns 0 if succeeded 1 if failed
-bool motorBreakFast();			      				//emergency break, returns 0 if succeeded 1 if failed
-bool motorSpeedUp(uint8_t factor, uint8_t motorID);	//Speeds up motor by factor, returns 0 if succeeded 1 if failed
+void moveRobot(float rotation, float x, float y); //Move robot to world view x,y with rotation.
 
 #endif /* INC_MOTOR_H_ */
