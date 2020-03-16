@@ -74,51 +74,11 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int _write(int file, char *ptr, int len) {
-	int i = 0;
-	for (i = 0; i < len; i++)
-		ITM_SendChar((*ptr++));
-	return len;
-}
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
 	__NOP();
 }
 
-uint32_t adcValue1 = 0;
-uint32_t adcValue2 = 0;
-
-uint8_t pwmCounter = 0;
-
-int8_t pwm[AMOUNT_OF_MOTOR_CHANNELS] = {20, 40, 60, 80, 90, 30};
-
-GPIO_TypeDef* pwmPinOutBank[AMOUNT_OF_MOTOR_CHANNELS] = {GPIOB, GPIOA, GPIOB, GPIOB, GPIOA, GPIOA};
-
-uint16_t pwmPinOut[AMOUNT_OF_MOTOR_CHANNELS] = {
-		MOTOR_IN_1_1_Pin,
-		MOTOR_IN_1_2_Pin,
-		MOTOR_IN_2_1_Pin,
-		MOTOR_IN_2_2_Pin,
-		MOTOR_IN_3_1_Pin,
-		MOTOR_IN_3_2_Pin};
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim2) {
-//	if (htim2->Instance == TIM2) {
-//		pwmCounter++;
-//
-//		if (pwmCounter > PWM_MAX) {
-//			pwmCounter = 1;
-//		}
-//
-//		for (uint8_t pwmOutput = 0; pwmOutput < AMOUNT_OF_MOTOR_CHANNELS; pwmOutput++){
-//			if (pwmCounter > pwm[pwmOutput]) {
-//				HAL_GPIO_WritePin(pwmPinOutBank[pwmOutput], pwmPinOut[pwmOutput], 0);
-//			} else {
-//				HAL_GPIO_WritePin(pwmPinOutBank[pwmOutput], pwmPinOut[pwmOutput], 1);
-//			}
-//		}
-//	}
-}
 
 /* USER CODE END 0 */
 
@@ -160,8 +120,6 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
-	uint32_t adc, adc2;
-
 	BUMPER_STATUS bumper = BUMPER_NONE;
 
 	HAL_TIM_Base_Start_IT(&htim2);
@@ -180,36 +138,7 @@ int main(void)
 	while (1) {
 
 		bumper = getBumperStatus();
-
-//		HAL_ADC_Start(&hadc1);
-//		HAL_ADC_Start(&hadc2);
-//
-//		if(HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK){
-//			adc = HAL_ADC_GetValue(&hadc1);
-//		}
-//		if(HAL_ADC_PollForConversion(&hadc2, 1000) == HAL_OK){
-//			adc2 = HAL_ADC_GetValue(&hadc2);
-//		}
-		//HAL_ADC_PollForConversion(&hadc2, 1000);
-
-		//	adc2 = HAL_ADC_GetValue(&hadc2);
-
 		sensorReadValue(&hadc1, &hadc2);
-//	  if(HAL_I2C_IsDeviceReady(&hi2c1, 0x00, 2, 10) == HAL_OK){
-//		  HAL_GPIO_TogglePin(GPIOA, MOTOR_IN_3_2_Pin );
-//	  }
-//	  HAL_I2C_Master_Transmit(&hi2c1,0x20, buffer, 4, 1000);
-	  //HAL_Delay(500);
-
-//		HAL_I2C_Slave_Receive(&hi2c1, buffer, 4, 1000);
-//		//HAL_Delay(500);
-//
-//		if (buffer == 0) {
-//			HAL_I2C_Slave_Transmit(&hi2c1, buffer, 4, 1000);
-//		}
-
-//		HAL_GPIO_TogglePin(GPIOA, MOTOR_IN_1_2_Pin);
-//		HAL_Delay(50);
 
     /* USER CODE END WHILE */
 

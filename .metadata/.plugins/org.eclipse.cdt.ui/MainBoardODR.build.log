@@ -1,0 +1,25 @@
+15:10:56 **** Incremental Build of configuration Debug for project MainBoardODR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F334x8 -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/motor.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F334x8 -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/motor.d" -MT"Core/Src/motor.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/motor.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:123:16: warning: variable 'bumper' set but not used [-Wunused-but-set-variable]
+  BUMPER_STATUS bumper = BUMPER_NONE;
+                ^~~~~~
+arm-none-eabi-gcc -o "MainBoardODR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Madita\Documents\Git-Repos\Terminator\MainBoardODR\STM32F334K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MainBoardODR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MainBoardODR.elf
+ 
+arm-none-eabi-size   MainBoardODR.elf 
+arm-none-eabi-objdump -h -S  MainBoardODR.elf  > "MainBoardODR.list"
+arm-none-eabi-objcopy  -O ihex  MainBoardODR.elf  "MainBoardODR.hex"
+   text	   data	    bss	    dec	    hex	filename
+  21500	     64	   1992	  23556	   5c04	MainBoardODR.elf
+Finished building: default.size.stdout
+ 
+Finished building: MainBoardODR.hex
+ 
+Finished building: MainBoardODR.list
+ 
+
+15:10:58 Build Finished. 0 errors, 1 warnings. (took 1s.942ms)
+

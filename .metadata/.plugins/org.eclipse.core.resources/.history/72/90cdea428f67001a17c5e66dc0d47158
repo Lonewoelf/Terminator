@@ -1,0 +1,33 @@
+/*
+ * Motor.h
+ *
+ *  Created on: Mar 2, 2020
+ *      Author: Madita
+ */
+
+#ifndef INC_MOTOR_H_
+#define INC_MOTOR_H_
+
+#define PWM_MAX 100
+#define AMOUNT_OF_MOTOR_CHANNELS 6
+
+uint8_t motorGetSpeed(uint8_t motorID);          	//retrieves the current speed
+bool motorBreak();		  					        //normal break, returns 0 if succeeded 1 if failed
+bool motorBreakFast();			      				//emergency break, returns 0 if succeeded 1 if failed
+bool motorSpeedUp(uint8_t factor, uint8_t motorID);	//Speeds up motor by factor, returns 0 if succeeded 1 if failed
+
+static int8_t pwm[AMOUNT_OF_MOTOR_CHANNELS] = {20, 40, 60, 80, 90, 30};
+
+static GPIO_TypeDef* pwmPinOutBank[AMOUNT_OF_MOTOR_CHANNELS] = {GPIOB, GPIOA, GPIOB, GPIOB, GPIOA, GPIOA};
+
+static uint16_t pwmPinOut[AMOUNT_OF_MOTOR_CHANNELS] = {
+		MOTOR_IN_1_1_Pin,
+		MOTOR_IN_1_2_Pin,
+		MOTOR_IN_2_1_Pin,
+		MOTOR_IN_2_2_Pin,
+		MOTOR_IN_3_1_Pin,
+		MOTOR_IN_3_2_Pin};
+
+static uint8_t pwmCounter = 0;
+
+#endif /* INC_MOTOR_H_ */
