@@ -26,6 +26,7 @@
 #include "math.h"
 #include "motor.h"
 #include "sensors.h"
+#include "bumper.h"
 
 /* USER CODE END Includes */
 
@@ -191,6 +192,8 @@ int main(void)
 
 	uint32_t adc, adc2;
 
+	BUMPER_STATUS bumper = BUMPER_NONE;
+
 	HAL_TIM_Base_Start_IT(&htim2);
 	//HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
 
@@ -211,12 +214,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	while (1) {
 
-//		if (speed > 60){
-//			direction = 1;
-//		}
-//		else if(speed < 10){
-//			direction = 0;
-//		}
+		bumper = getBumperStatus();
+
+//		HAL_ADC_Start(&hadc1);
+//		HAL_ADC_Start(&hadc2);
 //
 //		if (direction){
 //			speed--;
@@ -694,9 +695,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : ENCODER_B3_Pin ENCODER_A2_Pin ENCODER_B2_Pin ENCODER_A3_Pin 
-                           STATUS_Pin BUMPER_Pin */
+                           STATUS_Pin */
   GPIO_InitStruct.Pin = ENCODER_B3_Pin|ENCODER_A2_Pin|ENCODER_B2_Pin|ENCODER_A3_Pin 
-                          |STATUS_Pin|BUMPER_Pin;
+                          |STATUS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -707,12 +708,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : BUMPER_Pin */
+  GPIO_InitStruct.Pin = BUMPER_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(BUMPER_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pins : MOTOR_IN_1_1_Pin MOTOR_IN_2_2_Pin MOTOR_IN_2_1_Pin */
   GPIO_InitStruct.Pin = MOTOR_IN_1_1_Pin|MOTOR_IN_2_2_Pin|MOTOR_IN_2_1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 1, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 
