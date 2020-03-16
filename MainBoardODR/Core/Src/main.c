@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "math.h"
 #include "motor.h"
 #include "sensors.h"
 
@@ -36,6 +36,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define wheelDiameter 70.0
+#define wheelCenterDistance 120.0
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -51,7 +53,6 @@ I2C_HandleTypeDef hi2c1;
 
 RTC_HandleTypeDef hrtc;
 
-TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
@@ -65,7 +66,6 @@ static void MX_ADC1_Init(void);
 static void MX_ADC2_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_RTC_Init(void);
-static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -119,6 +119,36 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim2) {
 //	}
 }
 
+void moveRobot(float rotation, float x, float y) {
+	float motor1 = 1 / wheelDiameter * ((-wheelCenterDistance * rotation) + x);
+	float motor2 = 1 / wheelDiameter * ((-wheelCenterDistance * rotation) + (x * (-1 / 2)) + (y * -sin(M_PI / 3)));
+	float motor3 = 1 / wheelDiameter * ((-wheelCenterDistance * rotation) + (x * (-1 / 2)) + (y * sin(M_PI / 3)));
+
+	if (motor1 < 0.0) {
+		pwm[1] = 0;
+		pwm[0] = (uint8_t) (motor1 * 50);
+	} else {
+		pwm[0] = 0;
+		pwm[1] = (uint8_t) (motor1 * 50);
+	}
+
+	if (motor2 < 0.0) {
+		pwm[3] = 0;
+		pwm[2] = (uint8_t) (motor1 * 50);
+	} else {
+		pwm[2] = 0;
+		pwm[3] = (uint8_t) (motor1 * 50);
+	}
+
+	if (motor3 < 0.0) {
+		pwm[5] = 0;
+		pwm[4] = (uint8_t) (motor1 * 50);
+	} else {
+		pwm[4] = 0;
+		pwm[5] = (uint8_t) (motor1 * 50);
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -168,27 +198,52 @@ int main(void)
 	htim2.Instance->CCR2 = 75;
 	htim2.Instance->CCR3 = 50;
 
-  /* USER CODE END 2 */
- 
- 
+	//uint8_t speed = 0;
+	//uint8_t direction = 0;
+
+	float motor1, motor2, motor3 = 0.0;
+	float rotation = 0.0;
+	float x, y = 0.0;
+
+	/* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-//		HAL_ADC_Start(&hadc1);
-//		HAL_ADC_Start(&hadc2);
+
+//		if (speed > 60){
+//			direction = 1;
+//		}
+//		else if(speed < 10){
+//			direction = 0;
+//		}
 //
-//		if(HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK){
-//			adc = HAL_ADC_GetValue(&hadc1);
+//		if (direction){
+//			speed--;
 //		}
-//		if(HAL_ADC_PollForConversion(&hadc2, 1000) == HAL_OK){
-//			adc2 = HAL_ADC_GetValue(&hadc2);
+//		else{
+//			speed++;
 //		}
-		//HAL_ADC_PollForConversion(&hadc2, 1000);
+//
+//		pwm[0] = speed;
+//		pwm[2] = speed;
+//		pwm[4] = speed;
 
-		//	adc2 = HAL_ADC_GetValue(&hadc2);
+		moveRobot(0.0, 3.0, 2.0);
 
-		sensorReadValue(&hadc1, &hadc2);
+		HAL_Delay(1000);
+
+		moveRobot(0.0, -3.0, -2.0);
+
+		HAL_Delay(1000);
+
+		moveRobot(45.0, 8.0, 15.0);
+
+		HAL_Delay(1000);
+
+//		for (int i = 0; i < 1000000; i++){
+//			asm("nop");
+//		}
 //	  if(HAL_I2C_IsDeviceReady(&hi2c1, 0x00, 2, 10) == HAL_OK){
 //		  HAL_GPIO_TogglePin(GPIOA, MOTOR_IN_3_2_Pin );
 //	  }
