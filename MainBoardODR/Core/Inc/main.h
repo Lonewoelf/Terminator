@@ -58,6 +58,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define MOTOR_IN_1_1_Pin GPIO_PIN_1
+#define MOTOR_IN_1_1_GPIO_Port GPIOF
 #define MUX_OUT_Pin GPIO_PIN_0
 #define MUX_OUT_GPIO_Port GPIOA
 #define MUX_SELECT_2_Pin GPIO_PIN_1
@@ -95,8 +97,6 @@ void Error_Handler(void);
 #define SWCLK_GPIO_Port GPIOA
 #define MOTOR_IN_1_2_Pin GPIO_PIN_15
 #define MOTOR_IN_1_2_GPIO_Port GPIOA
-#define MOTOR_IN_1_1_Pin GPIO_PIN_3
-#define MOTOR_IN_1_1_GPIO_Port GPIOB
 #define MOTOR_IN_2_2_Pin GPIO_PIN_4
 #define MOTOR_IN_2_2_GPIO_Port GPIOB
 #define MOTOR_IN_2_1_Pin GPIO_PIN_5

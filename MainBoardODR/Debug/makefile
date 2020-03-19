@@ -32,16 +32,16 @@ default.size.stdout \
 OBJDUMP_LIST += \
 MainBoardODR.list \
 
-OBJCOPY_BIN += \
-MainBoardODR.bin \
+OBJCOPY_HEX += \
+MainBoardODR.hex \
 
 
 # All Target
 all: MainBoardODR.elf secondary-outputs
 
 # Tool invocations
-MainBoardODR.elf: $(OBJS) $(USER_OBJS) C:\Users\Madita\Documents\Avansopdr\Jaar\ 3\MainBoardODR\STM32F334K8TX_FLASH.ld
-	arm-none-eabi-gcc -o "MainBoardODR.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Madita\Documents\Avansopdr\Jaar 3\MainBoardODR\STM32F334K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MainBoardODR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+MainBoardODR.elf: $(OBJS) $(USER_OBJS) C:\Users\Jonathan\Documents\GitHub\Terminator\MainBoardODR\STM32F334K8TX_FLASH.ld
+	arm-none-eabi-gcc -o "MainBoardODR.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Jonathan\Documents\GitHub\Terminator\MainBoardODR\STM32F334K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MainBoardODR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -55,8 +55,8 @@ MainBoardODR.list: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-MainBoardODR.bin: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "MainBoardODR.bin"
+MainBoardODR.hex: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "MainBoardODR.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
@@ -65,7 +65,7 @@ clean:
 	-$(RM) *
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
 
 .PHONY: all clean dependents
 .SECONDARY:
