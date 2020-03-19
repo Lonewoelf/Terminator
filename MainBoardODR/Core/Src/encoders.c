@@ -5,9 +5,10 @@
  *      Author: Madita
  */
 #include "encoders.h"
+#include "main.h"
+#include "motor.h"
 
 static uint32_t temp1 = 0, temp2 = 0, temp3 = 0;
-static uint32_t speed1 = 0, speed2 = 0, speed3 = 0;
 
 void encoderInit(){
 	timerValue = 0;
@@ -17,7 +18,11 @@ void encoderInit(){
 	encoderB1 = 0;
 	encoderB2 = 0;
 	encoderB3 = 0;
+	speed1 = 0;
+	speed2 = 0;
+	speed3 = 0;
     MX_TIM1_Init();
+	HAL_TIM_Base_Start_IT(&htim1);
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -27,19 +32,29 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	switch(GPIO_Pin){
 
 	case ENCODER_A1_Pin:
-		temp1 = encoderA1;
-		encoderA1 = timerValue;
-		encoderCalculateSpeed(encoderA1, temp1);
+		speed1++;
+//		temp1 = encoderA1;
+//		encoderA1 = timerValue;
+//		if (encoderCalculateSpeed(encoderA1, temp1) > 0){
+//			speed1 = encoderCalculateSpeed(encoderA1, temp1);
+//		}
+		break;
 
 	case ENCODER_A2_Pin:
 		temp2 = encoderA2;
 		encoderA2 = timerValue;
-		encoderCalculateSpeed(encoderA2, temp2);
+		if (encoderCalculateSpeed(encoderA2, temp2) > 0){
+			speed2 = encoderCalculateSpeed(encoderA2, temp2);
+		}
+		break;
 
 	case ENCODER_A3_Pin:
 		temp3 = encoderA3;
 		encoderA3 = timerValue;
-		encoderCalculateSpeed(encoderA3, temp3);
+		if (encoderCalculateSpeed(encoderA3, temp3) > 0){
+			speed3 = encoderCalculateSpeed(encoderA3, temp3);
+		}
+		break;
 
 	case BUMPER_Pin:
 		break;
@@ -51,17 +66,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 //	case ENCODER_B3_Pin:
 
 	}
-
-	encoderCalculateOverallSpeed(speed1, speed2, speed3);
 }
 
 uint32_t encoderCalculateSpeed(uint32_t time, uint32_t timePrev){ // m/s
-	return (WHEEL_SIZE / (timePrev - time));
+	return (time - timePrev);
 }
 
-uint32_t encoderCalculateOverallSpeed(uint32_t speed1, uint32_t speed2, uint32_t speed3){ // m/s
-	return ((speed1 + speed2 + speed3) / AMOUNT_OF_ENCODERS);
-}
 
 /**
   * @brief TIM1 Initialization Function
@@ -86,7 +96,7 @@ void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 48;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 6500;
+  htim1.Init.Period = 65000;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;

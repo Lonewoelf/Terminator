@@ -9,7 +9,6 @@
 
 #include "main.h"
 #include "motor.h"
-#include "math.h"
 
 float V1Current = 0.0;
 float V2Current = 0.0;

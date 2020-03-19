@@ -51,7 +51,10 @@
 
 
 I2C_HandleTypeDef hi2c1;
+
 RTC_HandleTypeDef hrtc;
+
+
 
 /* USER CODE BEGIN PV */
 
@@ -114,24 +117,27 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_RTC_Init();
+
   /* USER CODE BEGIN 2 */
 
 	BUMPER_STATUS bumper = BUMPER_NONE;
 
 	initSensors();
 	initMotors();
-	demoMotors();
 	encoderInit();
+	demoMotors();
 
   /* USER CODE END 2 */
  
-   /* Infinite loop */
+ 
+
+  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
 
 		bumper = getBumperStatus();
-		printf("bumper %d\n", bumper);
-		HAL_Delay(1000);
+		printf("Bumper: %d -- Encoder 1: %lu -- Encoder 2: %lu -- Encoder 3: %lu\n", bumper, speed1, speed2, speed3);
+		HAL_Delay(500);
 
     /* USER CODE END WHILE */
 
@@ -275,6 +281,12 @@ static void MX_RTC_Init(void)
 }
 
 /**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -310,19 +322,23 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ENCODER_B3_Pin ENCODER_A2_Pin ENCODER_B2_Pin ENCODER_A3_Pin 
-                           STATUS_Pin */
-  GPIO_InitStruct.Pin = ENCODER_B3_Pin|ENCODER_A2_Pin|ENCODER_B2_Pin|ENCODER_A3_Pin 
-                          |STATUS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  /*Configure GPIO pins : ENCODER_B3_Pin ENCODER_A2_Pin ENCODER_B2_Pin ENCODER_A3_Pin */
+  GPIO_InitStruct.Pin = ENCODER_B3_Pin|ENCODER_A2_Pin|ENCODER_B2_Pin|ENCODER_A3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : ENCODER_A1_Pin ENCODER_B1_Pin */
   GPIO_InitStruct.Pin = ENCODER_A1_Pin|ENCODER_B1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : STATUS_Pin */
+  GPIO_InitStruct.Pin = STATUS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(STATUS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : BUMPER_Pin */
   GPIO_InitStruct.Pin = BUMPER_Pin;
@@ -350,6 +366,15 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(MOTOR_IN_2_1_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
