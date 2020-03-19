@@ -41,6 +41,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		encoderA3 = timerValue;
 		encoderCalculateSpeed(encoderA3, temp3);
 
+	case BUMPER_Pin:
+		break;
+
 //	case ENCODER_B1_Pin:
 //
 //	case ENCODER_B2_Pin:
@@ -65,7 +68,7 @@ uint32_t encoderCalculateOverallSpeed(uint32_t speed1, uint32_t speed2, uint32_t
   * @param None
   * @retval None
   */
-static void MX_TIM1_Init(void)
+void MX_TIM1_Init(void)
 {
 
   /* USER CODE BEGIN TIM1_Init 0 */
