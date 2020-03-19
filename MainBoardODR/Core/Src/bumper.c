@@ -14,9 +14,4 @@ BUMPER_STATUS getBumperStatus(){
 	return BUMPER_ERROR;
 }
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-  /* Prevent unused argument(s) compilation warning */
-  UNUSED(GPIO_Pin);
-
-}
+// Hardware interrupt is in encoders.c
