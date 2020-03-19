@@ -6,8 +6,6 @@
  */
 
 
-
-#include "main.h"
 #include "motor.h"
 
 float V1Current = 0.0;
@@ -18,21 +16,12 @@ float V1Target = 0.0;
 float V2Target = 0.0;
 float V3Target = 0.0;
 
-uint8_t pwmCounter = 0;
-
-int8_t pwm[AMOUNT_OF_MOTOR_CHANNELS] = {20, 40, 60, 80, 90, 30};
-
-GPIO_TypeDef* pwmPinOutBank[AMOUNT_OF_MOTOR_CHANNELS] = {GPIOB, GPIOA, GPIOB, GPIOB, GPIOA, GPIOA};
-
-uint16_t pwmPinOut[AMOUNT_OF_MOTOR_CHANNELS] = {
-		MOTOR_IN_1_1_Pin,
-		MOTOR_IN_1_2_Pin,
-		MOTOR_IN_2_1_Pin,
-		MOTOR_IN_2_2_Pin,
-		MOTOR_IN_3_1_Pin,
-		MOTOR_IN_3_2_Pin};
-
 void initMotors(){
+
+	for (uint8_t i = 0; i < AMOUNT_OF_MOTOR_CHANNELS-1; i++){
+		pwm[i] = 0;
+	}
+
 	MX_TIM2_Init();
 	HAL_TIM_Base_Start_IT(&htim2);
 	MX_TIM3_Init();
@@ -150,27 +139,7 @@ void MX_TIM3_Init(void)
 
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	if (htim->Instance == TIM2) {
-		pwmCounter++;
 
-		if (pwmCounter > PWM_MAX) {
-			pwmCounter = 1;
-		}
-
-		for (uint8_t pwmOutput = 0; pwmOutput < AMOUNT_OF_MOTOR_CHANNELS; pwmOutput++){
-			if (pwmCounter > pwm[pwmOutput]) {
-				HAL_GPIO_WritePin(pwmPinOutBank[pwmOutput], pwmPinOut[pwmOutput], 0);
-			} else {
-				HAL_GPIO_WritePin(pwmPinOutBank[pwmOutput], pwmPinOut[pwmOutput], 1);
-			}
-		}
-	}
-
-	if (htim->Instance == TIM3){
-//TODO CREATE RAMP UP FUNCTION
-	}
-}
 
 void moveRobot(float OM, float Theta, float VxW, float VyW){
 	float VxM = cos(Theta) * VxW + sin(Theta) * VyW;

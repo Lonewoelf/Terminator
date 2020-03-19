@@ -14,8 +14,13 @@
 #define AMOUNT_OF_MOTOR_CHANNELS 6
 #define MAX_SPEED 25.0
 
+#include "main.h"
+
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+
+int8_t pwm[AMOUNT_OF_MOTOR_CHANNELS];
+
 
 void initMotors();
 void MX_TIM2_Init(void);
