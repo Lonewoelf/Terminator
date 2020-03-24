@@ -50,7 +50,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 I2C_HandleTypeDef hi2c1;
-
 RTC_HandleTypeDef hrtc;
 
 
@@ -64,6 +63,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_RTC_Init(void);
+
 
 /* USER CODE BEGIN PFP */
 
@@ -123,8 +123,8 @@ int main(void)
 
 	initSensors();
 	initMotors();
-	demoMotors();
 	encoderInit();
+	demoMotors();
 
   /* USER CODE END 2 */
  
@@ -135,8 +135,8 @@ int main(void)
 	while (1) {
 
 		bumper = getBumperStatus();
-		printf("bumper %d\n", bumper);
-		HAL_Delay(1000);
+		printf("Bumper: %d -- Encoder 1: %f -- Encoder 2: %f -- Encoder 3: %f\n", bumper, speed1, speed2, speed3);
+		HAL_Delay(500);
 
     /* USER CODE END WHILE */
 
@@ -192,11 +192,6 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief ADC1 Initialization Function
-  * @param None
-  * @retval None
-  */
 
 /**
   * @brief I2C1 Initialization Function
@@ -226,13 +221,13 @@ static void MX_I2C1_Init(void)
   {
     Error_Handler();
   }
-  /** Configure Analogue filter 
+  /** Configure Analogue filter
   */
   if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
     Error_Handler();
   }
-  /** Configure Digital filter 
+  /** Configure Digital filter
   */
   if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
   {
