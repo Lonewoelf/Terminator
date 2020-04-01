@@ -25,7 +25,7 @@ void encoderInit(){
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	timerValue = TIM1->CNT;
+	timerValue = TIM6->CNT;
 
 	switch(GPIO_Pin){
 

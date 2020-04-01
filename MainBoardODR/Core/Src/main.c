@@ -133,7 +133,7 @@ int main(void)
 	while (1) {
 
 		bumper = getBumperStatus();
-		printf("Bumper: %d -- Encoder 1: %f -- Encoder 2: %f -- Encoder 3: %f\n", bumper, speed1, speed2, speed3);
+		//printf("Bumper: %d -- Encoder 1: %f -- Encoder 2: %f -- Encoder 3: %f\n", bumper, speed1, speed2, speed3);
 		HAL_Delay(500);
 
     /* USER CODE END WHILE */

@@ -13,6 +13,7 @@
 #define PULSES_PER_REVOLUTION 500.0
 #define GEAR_REDUCTION 16.0
 #define AMOUNT_OF_ENCODERS 3
+#define TIME 1000
 
 uint16_t timerValue;
 uint32_t encoderA1, encoderA2, encoderA3, encoderB1, encoderB2, encoderB3;

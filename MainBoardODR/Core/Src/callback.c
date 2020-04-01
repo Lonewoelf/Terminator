@@ -23,8 +23,6 @@ uint16_t pwmPinOut[AMOUNT_OF_MOTOR_CHANNELS] = {
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
-
-
 	if (htim->Instance == TIM2) {
 		pwmCounter++;
 
@@ -46,8 +44,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}
 
 	if (htim->Instance == TIM6){
-		speed1 = ( ((float)encoderA1 * 1000.0) / (PULSES_PER_REVOLUTION) * GEAR_REDUCTION ); // [rev/s]
+		float averagePulse = 0;
+		averagePulse = 2 * M_PI * encoderA1 / PULSES_PER_REVOLUTION * TIME; // avaragePulse [rad/s]
+		speed1 = (WHEEL_CIRCOMFERENCE / 100) * averagePulse; // [m/s]
+		//speed1 = ( ((float)encoderA1 * 1000.0) / (PULSES_PER_REVOLUTION) * GEAR_REDUCTION ); // [rev/s]
 		encoderA1 = 0;
 	}
 }
-

@@ -1,0 +1,6 @@
+2020-03-24 12:35:40,272 [INFO] Activator:176 - 
+
+
+2020-03-24 12:35:40,274 [INFO] Activator:177 - !SESSION log4j initialized
+2020-03-24 12:36:25,568 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :9:2: The content of elements must consist of well-formed character data or markup.
+2020-03-24 12:36:25,570 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 

@@ -1,4 +1,6 @@
 "Core/Src/bumper.o"
+"Core/Src/callback.o"
+"Core/Src/encoders.o"
 "Core/Src/main.o"
 "Core/Src/motor.o"
 "Core/Src/sensors.o"
