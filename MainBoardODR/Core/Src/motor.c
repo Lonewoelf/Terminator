@@ -8,13 +8,7 @@
 
 #include "motor.h"
 
-float V1Current = 0.0;
-float V2Current = 0.0;
-float V3Current = 0.0;
 
-float V1Target = 0.0;
-float V2Target = 0.0;
-float V3Target = 0.0;
 
 void initMotors(){
 
@@ -26,6 +20,14 @@ void initMotors(){
 	HAL_TIM_Base_Start_IT(&htim2);
 	MX_TIM3_Init();
 	HAL_TIM_Base_Start_IT(&htim3);
+
+	V1Current = 0;
+	V2Current = 0;
+	V3Current = 0;
+
+	V1Target = 0.0;
+	V2Target = 0.0;
+	V3Target = 0.0;
 }
 
 void MX_TIM2_Init(void)
@@ -141,25 +143,29 @@ void MX_TIM3_Init(void)
 
 
 
-void moveRobot(float OM, float Theta, float VxW, float VyW){
-	float VxM = cos(Theta) * VxW + sin(Theta) * VyW;
-	float VyM = -sin(Theta) * VxW + cos(Theta) * VyW;
+void moveRobot(float Theta, float VxW, float VyW){
+//	float VxM = cos(Theta) * VxW + sin(Theta) * VyW;
+//	float VyM = -sin(Theta) * VxW + cos(Theta) * VyW;
+//
+//	V1Target = -VxM/(2.0*WHEEL_CENTER_RADIUS) -(sqrt(3.0)*VyM)/(2.0*WHEEL_CENTER_RADIUS) + WHEEL_CENTER_RADIUS*OM;
+//	V2Target = VxM+WHEEL_CENTER_RADIUS*OM;
+//	V3Target = -VxM/(2.0*WHEEL_CENTER_RADIUS) +(sqrt(3.0)*VyM)/(2.0*WHEEL_CENTER_RADIUS) + WHEEL_CENTER_RADIUS*OM;
 
-	V1Target = -VxM/(2.0*WHEEL_CENTER_RADIUS) -(sqrt(3.0)*VyM)/(2.0*WHEEL_CENTER_RADIUS) + WHEEL_CENTER_RADIUS*OM;
-	V2Target = VxM+WHEEL_CENTER_RADIUS*OM;
-	V3Target = -VxM/(2.0*WHEEL_CENTER_RADIUS) +(sqrt(3.0)*VyM)/(2.0*WHEEL_CENTER_RADIUS) + WHEEL_CENTER_RADIUS*OM;
+	V1Target = (0.58*VxW - 0.33*VyW + 0.33*Theta) * MAX_SPEED;
+	V2Target = (-0.58*VxW - 0.33*VyW + 0.33*Theta) * MAX_SPEED;
+	V3Target = (0*VxW + 0.67*VyW + 0.33*Theta) * MAX_SPEED;
 }
 
 void demoMotors(){
-	moveRobot(0.0, 0.0, 50.0, 0.0);
+	moveRobot(0.0, 1.0, 0.0);
 	HAL_Delay(2000);
-	moveRobot(0.0, 0.0, 0.0, 50.0);
+	moveRobot(0.0, 0.0, 1.0);
 	HAL_Delay(2000);
-	moveRobot(0.0, 0.0, -50.0, 0.0);
+	moveRobot(0.0, -1.0, 0.0);
 	HAL_Delay(2000);
-	moveRobot(0.0, 0.0, 0.0, -50.0);
+	moveRobot(0.0, 0.0, -1.0);
 	HAL_Delay(2000);
-	moveRobot(0.0, 0.0, 0.0, 0.0);
+	moveRobot(0.0, 0.0, 0.0);
 }
 
 //void moveRobot(float rotation, float x, float y) { DEPRECATED
