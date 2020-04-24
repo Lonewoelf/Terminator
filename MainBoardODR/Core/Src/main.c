@@ -163,7 +163,6 @@ int main(void)
   //TEST
 
   sensorReadValue(&hadc1, &hadc2);
-  sensorToCM();
 
   for(int i = 0; i < AMOUNT_OF_SENSORS; i++){
 	  printf("Sensor %d: %d", i, convertedSensorValues[i]);
