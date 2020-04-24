@@ -8,7 +8,12 @@
 #include "sensors.h"
 
 uint16_t sensorValues[AMOUNT_OF_SENSORS] = { 0 };
-uint16_t convertedSensorValues[AMOUNT_OF_SENSORS] = { 0 };
+
+void sensorsInit(){
+	for(int i = 0; i < AMOUNT_OF_SENSORS; i++){
+		  convertedSensorValues[i] = 0;
+	}
+}
 
 static uint16_t sensorToCMValues[AMOUNT_OF_SENSOR_POINTS] = { 3829, 3774, 3720,
 		3667, 3615, 3563, 3513, 3463, 3414, 3365, 3318, 3271, 3226, 3180, 3136,

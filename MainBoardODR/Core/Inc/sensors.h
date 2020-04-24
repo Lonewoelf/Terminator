@@ -13,6 +13,9 @@
 #define MILIMETERS 0.1
 #define STARTING_POINT 3
 
+uint16_t convertedSensorValues[AMOUNT_OF_SENSORS];
+
+void sensorsInit();
 void sensorReadValue(ADC_HandleTypeDef* hadc1, ADC_HandleTypeDef* hadc2);
 uint32_t sensorGetADCValue(ADC_HandleTypeDef* hadc);
 void sensorToCM();
