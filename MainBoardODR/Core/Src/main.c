@@ -158,8 +158,13 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  //TEST
 
-	uint32_t adc, adc2;
+  sensorReadValue(&hadc1, &hadc2);
+  sensorToCM();
+
+//END TEST
+
 
 	HAL_TIM_Base_Start_IT(&htim2);
 	//HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
