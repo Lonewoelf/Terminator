@@ -25,7 +25,7 @@ void encoderInit(){
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	timerValue = TIM1->CNT;
+	timerValue = TIM6->CNT;
 
 	switch(GPIO_Pin){
 
@@ -76,7 +76,7 @@ void MX_TIM6_Init(void)
   htim6.Instance = TIM6;
   htim6.Init.Prescaler = 48;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 1000;
+  htim6.Init.Period = TIM6_PERIOD;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {
